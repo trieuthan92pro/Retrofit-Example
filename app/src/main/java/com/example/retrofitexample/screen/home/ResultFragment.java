@@ -2,21 +2,21 @@ package com.example.retrofitexample.screen.home;
 
 
 import android.arch.lifecycle.Observer;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.retrofitexample.R;
 import com.example.retrofitexample.data.model.Item;
+import com.example.retrofitexample.databinding.FragmentResultBinding;
 import com.example.retrofitexample.screen.detail.DetailActivity;
 
 import java.util.List;
@@ -25,7 +25,6 @@ public class ResultFragment extends Fragment implements GithubUserAdapter.OnItem
     private static ResultFragment sResultFragment;
     private GithubUserViewModel mViewModel;
     private RecyclerView mRecyclerResult;
-    private ProgressBar mProgressBar;
     private GithubUserAdapter mAdapter;
 
     public ResultFragment() {}
@@ -41,7 +40,10 @@ public class ResultFragment extends Fragment implements GithubUserAdapter.OnItem
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mViewModel = MainActivity.optainViewModel(getActivity());
-        return inflater.inflate(R.layout.fragment_result, container, false);
+        FragmentResultBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_result,
+                container, false);
+        binding.setLifecycleOwner(this);
+        return binding.getRoot();
     }
 
     @Override
@@ -64,25 +66,14 @@ public class ResultFragment extends Fragment implements GithubUserAdapter.OnItem
     }
 
     private void initView(View view) {
-        mProgressBar = view.findViewById(R.id.progress_bar);
         mRecyclerResult = view.findViewById(R.id.recycler_result_list);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         mAdapter = new GithubUserAdapter(getContext(), this);
         mRecyclerResult.setLayoutManager(layoutManager);
         mRecyclerResult.setAdapter(mAdapter);
-        showProgressBar(true);
-    }
-
-    public void showProgressBar(boolean isShowing) {
-        if (isShowing) {
-            mProgressBar.setVisibility(View.VISIBLE);
-        } else {
-            mProgressBar.setVisibility(View.GONE);
-        }
     }
 
     public void showListUser(List<Item> items) {
-        showProgressBar(false);
         mAdapter.setItems(items);
     }
 

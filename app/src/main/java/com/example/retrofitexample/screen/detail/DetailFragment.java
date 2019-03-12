@@ -31,6 +31,7 @@ public class DetailFragment extends Fragment {
         FragmentDetailBinding binding =
                 DataBindingUtil.inflate(inflater, R.layout.fragment_detail, container, false);
         binding.setItem(item);
+        binding.setLifecycleOwner(this);
         return binding.getRoot();
     }
 

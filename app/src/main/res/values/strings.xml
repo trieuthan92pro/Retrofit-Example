@@ -3,4 +3,6 @@
     <string name="SCORE">SCORE:</string>
     <string name="LOGIN">LOGIN:</string>
     <string name="ID">ID:</string>
+    <string name="visible">visible</string>
+    <string name="gone">gone</string>
 </resources>
