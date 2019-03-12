@@ -28,9 +28,7 @@ public class ResultFragment extends Fragment implements GithubUserAdapter.OnItem
     private ProgressBar mProgressBar;
     private GithubUserAdapter mAdapter;
 
-    public ResultFragment() {
-
-    }
+    public ResultFragment() {}
 
     public static ResultFragment getInstance() {
         if(sResultFragment == null){
@@ -62,7 +60,6 @@ public class ResultFragment extends Fragment implements GithubUserAdapter.OnItem
                 showError(s);
             }
         });
-
         initView(view);
     }
 
@@ -96,16 +93,5 @@ public class ResultFragment extends Fragment implements GithubUserAdapter.OnItem
     @Override
     public void onItemClick(Item item) {
         startActivity(DetailActivity.getIntent(getContext(), item));
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        Log.e("DESTROYED", "onDestroy: " );
     }
 }

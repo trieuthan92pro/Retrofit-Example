@@ -8,7 +8,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
 import com.example.retrofitexample.R;
 
@@ -29,25 +28,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mFragmentManager = getSupportFragmentManager();
         setUpFragment();
-        Log.e("ACTIVITY", "onCreate: " );
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Log.e("ACTIVITY", "onStart: " );
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        Log.e("ACTIVITY", "onReStart: " );
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.e("ACTIVITY", "onResume: " );
     }
 
     private void setUpFragment() {
@@ -63,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
         }
         replaceFragment(mFragmentManager, resultFragment, R.id.frame_result);
         replaceFragment(mFragmentManager, userInputFragment, R.id.frame_user_input);
-
     }
 
     private void replaceFragment(FragmentManager supportFragmentManager, Fragment fragment,
@@ -72,17 +51,5 @@ public class MainActivity extends AppCompatActivity {
         transaction.replace(frame_fragment_main, fragment)
         .addToBackStack(null);
         transaction.commit();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.e("ACTIVITY", "onStop: " );
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.e("ACTIVITY", "onDestroy: " );
     }
 }

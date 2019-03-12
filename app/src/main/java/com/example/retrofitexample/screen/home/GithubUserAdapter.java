@@ -1,17 +1,16 @@
 package com.example.retrofitexample.screen.home;
 
 import android.content.Context;
+import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.example.retrofitexample.R;
 import com.example.retrofitexample.data.model.Item;
+import com.example.retrofitexample.databinding.ItemResultBinding;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,8 +31,9 @@ public class GithubUserAdapter extends RecyclerView.Adapter<GithubUserAdapter.Vi
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = mLayoutInflater.inflate(R.layout.item_result, viewGroup, false);
-        return new ViewHolder(view, mOnItemClickListener);
+        ItemResultBinding itemResultBinding = DataBindingUtil.inflate(mLayoutInflater, R.layout.item_result,
+                viewGroup, false);
+        return new ViewHolder(itemResultBinding, mOnItemClickListener);
     }
 
     @Override
@@ -63,39 +63,27 @@ public class GithubUserAdapter extends RecyclerView.Adapter<GithubUserAdapter.Vi
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private TextView mTextName;
-        private TextView mTextId;
-        private ImageView mImageAvartar;
-        private Context mContext;
         private OnItemClickListener mOnListener;
+        private ItemResultBinding mBinding;
         private Item mItem;
 
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            mTextName = itemView.findViewById(R.id.text_name);
-            mTextId = itemView.findViewById(R.id.text_id);
-            mImageAvartar = (ImageView) itemView.findViewById(R.id.image_person_icon);
-            mContext = itemView.getContext();
-
-            mTextName.setOnClickListener(this);
-            mTextId.setOnClickListener(this);
-            mImageAvartar.setOnClickListener(this);
+        public ViewHolder(@NonNull ItemResultBinding binding) {
+            super(binding.getRoot());
+            mBinding = binding;
+            itemView.findViewById(R.id.text_name).setOnClickListener(this);;
+            itemView.findViewById(R.id.text_id).setOnClickListener(this);
+            itemView.findViewById(R.id.image_person_icon).setOnClickListener(this);
         }
 
-        public ViewHolder(@NonNull View view, OnItemClickListener listener) {
-            this(view);
+        public ViewHolder(@NonNull ItemResultBinding binding, OnItemClickListener listener) {
+            this(binding);
             mOnListener = listener;
+            mBinding.setListener(mOnListener);
         }
 
         public void bindData(Item item) {
             setitem(item);
-            mTextId.setText(String.valueOf(item.getId()));
-            mTextName.setText(item.getLogin());
-            Glide.with(mContext)
-                    .load(item.getAvatarUrl())
-                    .error(R.drawable.ic_person_add_black_24dp)
-                    .circleCrop()
-                    .into(mImageAvartar);
+            mBinding.setItem(item);
         }
 
         public void setitem(Item item) {
